@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto Widget</title>
+  <title>Crypto Widget - CMC</title>
   <style>
     #crypto-widget {
       font-family: sans-serif;
@@ -38,32 +38,38 @@
   <div id="crypto-widget">Loading...</div>
 
   <script>
- const coins = [
-  { id: 'bitcoin', symbol: 'BTC', logo: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png', decimals: 4 },
-  { id: 'ethereum', symbol: 'ETH', logo: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png', decimals: 4 },
-  { id: 'ripple', symbol: 'XRP', logo: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png', decimals: 4 },
-  { id: 'pepe', symbol: 'PEPE', logo: 'https://assets.coingecko.com/coins/images/29850/large/pepe-token.png', decimals: 11},
-  { id: 'shiba-inu', symbol: 'SHIB', logo: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png', decimals: 11 },
-  { id: 'pumper', symbol: 'PUMP', logo: 'https://assets.coingecko.com/coins/images/35982/large/PUMP.png', decimals: 11 },
-  { id: 'pudgy-penguins', symbol: 'PENGU', logo: 'https://assets.coingecko.com/coins/images/34852/large/penguin.png', decimals: 11 }
-];
+    const coins = [
+      { symbol: 'BTC', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', decimals: 4 },
+      { symbol: 'ETH', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', decimals: 4 },
+      { symbol: 'XRP', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/52.png', decimals: 4 },
+      { symbol: 'PEPE', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/29850.png', decimals: 11 },
+      { symbol: 'SHIB', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5994.png', decimals: 11 },
+      { symbol: 'PUMP', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/35982.png', decimals: 11 },
+      { symbol: 'PENGU', logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/34852.png', decimals: 11 }
+    ];
 
     async function loadPrices() {
-      const ids = coins.map(c => c.id).join(',');
-      const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const symbols = coins.map(c => c.symbol).join(',');
+      const url = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbols}`;
+
+      const res = await fetch(url, {
+        headers: {
+          'X-CMC_PRO_API_KEY': 'YOUR_API_KEY_HERE'
+        }
+      });
+      const json = await res.json();
+      const data = json.data;
 
       const widget = document.getElementById('crypto-widget');
       widget.innerHTML = '';
 
       const sorted = [...coins].sort((a, b) => {
-        return (data[b.id]?.usd || 0) - (data[a.id]?.usd || 0);
+        return (data[b.symbol]?.quote?.USD?.market_cap || 0) - (data[a.symbol]?.quote?.USD?.market_cap || 0);
       });
 
       for (let coin of sorted) {
-        const price = data[coin.id]?.usd?.toFixed(4) || 'N/A';
-        const change = data[coin.id]?.usd_24h_change?.toFixed(2) || '0.00';
+        const price = data[coin.symbol]?.quote?.USD?.price?.toFixed(coin.decimals) || 'N/A';
+        const change = data[coin.symbol]?.quote?.USD?.percent_change_24h?.toFixed(2) || '0.00';
 
         const row = document.createElement('div');
         row.className = 'coin-row';
