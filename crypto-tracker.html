@@ -38,15 +38,15 @@
   <div id="crypto-widget">Loading...</div>
 
   <script>
-    const coins = [
-      { id: 'bitcoin', symbol: 'BTC', logo: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
-      { id: 'ethereum', symbol: 'ETH', logo: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
-      { id: 'ripple', symbol: 'XRP', logo: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png' },
-      { id: 'pepe', symbol: 'PEPE', logo: 'https://assets.coingecko.com/coins/images/29850/large/pepe-token.png' },
-      { id: 'shiba-inu', symbol: 'SHIB', logo: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png' },
-      { id: 'pumper', symbol: 'PUMP', logo: 'https://assets.coingecko.com/coins/images/35982/large/PUMP.png' },
-      { id: 'pengu', symbol: 'PENGU', logo: 'https://assets.coingecko.com/coins/images/34852/large/penguin.png' }
-    ];
+ const coins = [
+  { id: 'bitcoin', symbol: 'BTC', logo: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
+  { id: 'ethereum', symbol: 'ETH', logo: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
+  { id: 'ripple', symbol: 'XRP', logo: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png' },
+  { id: 'pepe', symbol: 'PEPE', logo: 'https://assets.coingecko.com/coins/images/29850/large/pepe-token.png' },
+  { id: 'shiba-inu', symbol: 'SHIB', logo: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png' },
+  { id: 'pumper', symbol: 'PUMP', logo: 'https://assets.coingecko.com/coins/images/35982/large/PUMP.png' },
+  { id: 'pudgy-penguins', symbol: 'PENGU', logo: 'https://assets.coingecko.com/coins/images/34852/large/penguin.png' }
+];
 
     async function loadPrices() {
       const ids = coins.map(c => c.id).join(',');
